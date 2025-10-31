@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fake Store Products</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="helo.js"></script>
+</head>
+<body>
+  <h1>🛒 Product Dashboard</h1>
+
+  <div id="toolbar">
+    <button id="addProduct" class="btn">Add Product</button>
+  </div>
+
+  <div id="status"></div>
+  <div id="products"></div>
+
+  <div id="productModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Add Product</h2>
+      <form id="productForm">
+        <label>Title:</label>
+        <input type="text" id="title" required />
+
+        <label>Price:</label>
+        <input type="number" id="price" step="0.01" required />
+
+        <label>Category:</label>
+        <input type="text" id="category" required />
+
+        <label>Description:</label>
+        <textarea id="description" rows="3"></textarea>
+
+        <label>Image URL:</label>
+        <input type="text" id="image" value="https://via.placeholder.com/150" />
+
+        <div class="form-buttons">
+          <button type="submit" class="btn">Save</button>
+          <button type="button" id="closeModal" class="btn cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

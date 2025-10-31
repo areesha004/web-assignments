@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BeJournalist Masonry (Pure CSS)</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+    }
+
+    /* NAVBAR */
+    nav {
+      background: #f8f9fa;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    nav .logo img {
+      height: 40px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: #007bff;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+    }
+
+    .hero img {
+      width: 100%;
+      display: block;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      transform: translateY(-50%);
+      color: white;
+      max-width: 50%;
+    }
+
+    .hero-content h2 {
+      color: #17a2b8;
+      font-weight: bold;
+    }
+
+    .hero-content h1 {
+      margin: 10px 0;
+      font-size: 2rem;
+    }
+
+    .hero-content button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hero-content button:hover {
+      background: #0056b3;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      background: #222;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .filter-bar h5 {
+      color: #aaa;
+      margin-right: 20px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+    }
+
+    .filter-option i {
+      color: #17a2b8;
+    }
+
+    /* MASONRY GALLERY */
+    .masonry {
+      column-count: 4;
+      column-gap: 0;
+    }
+
+    .masonry-item {
+      position: relative;
+      break-inside: avoid;
+      margin-bottom: 0;
+    }
+
+    .masonry-item img {
+      width: 100%;
+      display: block;
+    }
+
+    .overlay {
+      position: absolute;
+      left: 50%;
+      bottom: 5%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 6px 12px;
+      font-size: 14px;
+      text-align: center;
+      border-radius: 4px;
+    }
+    /* FOOTER STYLES */
+.footer {
+  background: #111820;
+  color: #ccc;
+  padding: 60px 10%;
+  font-size: 15px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-column h3 {
+  color: #fff;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin: 8px 0;
+}
+
+.footer-column ul li a {
+  text-decoration: none;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+  color: #17a2b8;
+}
+
+/* Latest comments */
+.comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.comment .dot {
+  width: 8px;
+  height: 8px;
+  background: #17a2b8;
+  border-radius: 50%;
+  margin-top: 8px;
+}
+
+.comment-text .date {
+  color: #aaa;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.comment-text i {
+  color: #17a2b8;
+}
+
+/* Tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tags a {
+  color: #888;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.tags a:hover {
+  color: #17a2b8;
+}
+
+/* Footer bottom */
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #222;
+  padding-top: 20px;
+  color: #777;
+  font-size: 14px;
+}
+
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .masonry {
+        column-count: 3;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .masonry {
+        column-count: 2;
+      }
+      .hero-content {
+        max-width: 70%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .masonry {
+        column-count: 1;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">
+      <img src="https://themes.muffingroup.com/be/journalist/wp-content/uploads/2015/09/retina-journalist.png" alt="Logo" />
+    </div>
+    <ul>
+      <li><a href="#" class="active">Home</a></li>
+      <li><a href="#">Articles and Stories</a></li>
+      <li><a href="#">Our Staff</a></li>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Buy Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="https://picsum.photos/1500/600?grayscale" alt="Hero Image" />
+    <div class="hero-content">
+      <h2>SPECIAL NEWS</h2>
+      <h1>Prion duis sodalace i,perdiest siwein sapien famesdj accmn</h1>
+      <button>Click Now!</button>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <h5>Filter by</h5>
+    <div class="filter-option"><i class="fa-solid fa-layer-group"></i> Categories</div>
+    <div class="filter-option"><i class="fa-solid fa-tags"></i> Tags</div>
+    <div class="filter-option"><i class="fa-solid fa-user"></i> Authors</div>
+  </div>
+
+  <!-- MASONRY GALLERY -->
+  <div class="masonry">
+    <!-- Example images -->
+    <div class="masonry-item"><img src="https://picsum.photos/500/300?random=1"><div class="overlay">Breaking News Today</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/400?random=2"><div class="overlay">World Politics Update</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/350?random=3"><div class="overlay">Sports Highlights</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/450?random=4"><div class="overlay">Technology Trends</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/320?random=5"><div class="overlay">Travel Destinations</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/370?random=6"><div class="overlay">Health & Fitness</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/280?random=7"><div class="overlay">Global Economy</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/310?random=8"><div class="overlay">Breaking Point</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/500?random=9"><div class="overlay">City Life</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/360?random=10"><div class="overlay">Rising Stars</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/420?random=11"><div class="overlay">Nature Wonders</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/340?random=12"><div class="overlay">Art & Culture</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/460?random=13"><div class="overlay">Entertainment Buzz</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/280?random=14"><div class="overlay">Science Daily</div></div>
+    <div class="masonry-item"><img src="https://picsum.photos/500/390?random=15"><div class="overlay">Global Voices</div></div>
+  </div>
+  <!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3>Useful links</h3>
+      <ul>
+        <li><a href="#">Log in</a></li>
+        <li><a href="#">Entries feed</a></li>
+        <li><a href="#">Comments feed</a></li>
+        <li><a href="#">WordPress.org</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-column">
+      <h3>Latest comments</h3>
+      <div class="comment">
+        <span class="dot"></span>
+        <div class="comment-text">
+          <p class="date">November 17, 2014</p>
+          <p><i class="fa-solid fa-user"></i> <strong>admin</strong> commented on</p>
+          <p>Aenean ligula mol stie viverra quae melesua porta</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-column">
+      <h3>About us</h3>
+      <p><strong>Interdum nulla lectus vel justo. Curabitur fringilla nisi a ex.</strong></p>
+      <p>
+        Praesent vel iaculis erat. Mauris congue tortor a aliquam sodales.
+        Duis quis odio id dolor fermentum bibendum. Nam iaculis viverra urna.
+      </p>
+    </div>
+
+    <div class="footer-column">
+      <h3>Tags</h3>
+      <div class="tags">
+        <a href="#">Design</a>
+        <a href="#">Framework</a>
+        <a href="#">Motion</a>
+        <a href="#">Grid</a>
+        <a href="#">Themeforest</a>
+        <a href="#">Video</a>
+        <a href="#">WordPress</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 BeJournalist. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>

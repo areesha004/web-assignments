@@ -92,7 +92,7 @@
                 <input id="wallet" name="paymentMethod" type="radio" class="form-check-input">
                 <label class="form-check-label" for="wallet">Wallet</label>
               </div>
-              <div class="invalid-feedback d-block payment-error" style="display:none;">Please select a payment method.</div>
+              <div class="invalid-feedback d-none payment-error" style="display:none;">Please select a payment method.</div>
 
               <div id="cardDetails" class="d-none">
                 <div class="row g-3">
@@ -186,11 +186,11 @@
         };
 
         if ($("#fullname").val().trim().length < 3) invalidate("#fullname");
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("#email").val())) invalidate("#email");
-        if (!/^\d{10,}$/.test($("#phone").val())) invalidate("#phone");
+        if (!($("#email").val())) invalidate("#email");
+        if (!($("#phone").val())) invalidate("#phone");
         if (!$("#address").val().trim()) invalidate("#address");
         if (!$("#city").val().trim()) invalidate("#city");
-        if (!/^\d{4,6}$/.test($("#postal").val())) invalidate("#postal");
+        if (!($("#postal").val())) invalidate("#postal");
         if (!$("#country").val()) invalidate("#country");
 
         if (!$("input[name='paymentMethod']:checked").length) {
@@ -216,10 +216,8 @@
           return false;
         }
 
-        alert("✅ Order placed successfully!");
-        this.reset();
-        $("input, select").removeClass("is-valid");
-        $("#cardDetails").addClass("d-none");
+        alert(" Order placed successfully!");
+       
       });
     });
   </script>

@@ -90,10 +90,10 @@ $(document).ready(function () {
     if (editId) {
       const index = productsCache.findIndex(p => p.id === editId);
       productsCache[index] = productData;
-      alert('✅ Product updated!');
+      alert(' Product updated!');
     } else {
       productsCache.unshift(productData);
-      alert('✅ Product added!');
+      alert(' Product added!');
     }
 
     $modal.fadeOut(200);
@@ -104,7 +104,7 @@ $(document).ready(function () {
     if (confirm('Delete this product?')) {
       productsCache = productsCache.filter(p => p.id !== id);
       renderAllProducts();
-      alert('🗑️ Product deleted!');
+      alert(' Product deleted!');
     }
   }
 

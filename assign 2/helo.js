@@ -32,9 +32,9 @@ $(document).ready(function () {
   function renderProduct(p) {
     const avg = p.rating?.rate ?? 'N/A';
     const count = p.rating?.count ?? 0;
-    const stars = avg !== 'N/A'
-      ? '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg))
-      : 'N/A';
+  const stars = avg !== 'N/A'
+  ? `<span class="stars">${'<i class="fa-solid fa-star"></i>'.repeat(Math.round(avg))}${'<i class="fa-regular fa-star"></i>'.repeat(5 - Math.round(avg))}</span>`
+  : 'N/A';
 
     const $card = $(`
       <div class="card">

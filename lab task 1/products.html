@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products</title>
+
+  <style>
+    /* Body */
+    body {
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #eef2f7;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+      letter-spacing: 1px;
+    }
+
+    /* Filters */
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    #filters select,
+    #filters input {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+      font-size: 14px;
+      min-width: 120px;
+    }
+
+    #filters button {
+      padding: 8px 16px;
+      background: #4d7cff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #filters button:hover {
+      background: #3b5fd1;
+    }
+
+    /* Product container */
+    #product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+      padding: 10px;
+    }
+
+    /* Product card */
+    .product-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .product-card h3 {
+      margin: 8px 0 4px;
+      font-size: 18px;
+      color: #333;
+    }
+
+    .product-card p {
+      font-size: 14px;
+      color: #555;
+      margin: 4px 0;
+    }
+
+    .price {
+      font-size: 16px;
+      font-weight: bold;
+      color: #ff2e63;
+      margin-top: 6px;
+    }
+
+    /* Pagination */
+    #pagination {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .page-btn {
+      padding: 8px 14px;
+      margin: 3px;
+      border: 1px solid #4d7cff;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #fff;
+      transition: 0.3s;
+    }
+
+    .page-btn:hover {
+      background: #4d7cff;
+      color: #fff;
+    }
+
+    .page-btn.active {
+      background: #4d7cff;
+      color: #fff;
+      cursor: default;
+    }
+
+    /* Responsive */
+    @media(max-width: 600px) {
+      #filters {
+        flex-direction: column;
+        align-items: center;
+      }
+      #filters select, #filters input {
+        width: 80%;
+      }
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+
+  <h1>Products</h1>
+
+  <div id="filters">
+    <select id="category-filter">
+      <option value="">All Categories</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Footwear">Footwear</option>
+      <option value="Accessories">Accessories</option>
+      <option value="Photography">Photography</option>
+    </select>
+
+    <input type="number" id="min-price" placeholder="Min Price" />
+    <input type="number" id="max-price" placeholder="Max Price" />
+
+    <button id="apply-filters">Apply Filters</button>
+  </div>
+
+  <div id="product-container"></div>
+  <div id="pagination"></div>
+
+  <script src="products.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #4d7cff;
+      color: #fff;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    main {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    /* Add Product Form */
+    #add-product-form {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 300px;
+      flex-shrink: 0;
+    }
+
+    #add-product-form h2 {
+      margin-top: 0;
+      font-size: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    #add-product-form input {
+      width: 100%;
+      padding: 8px 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    #add-product-form button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      background: #4d7cff;
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    #add-product-form button:hover {
+      background: #3b5fd1;
+    }
+
+    /* Products Table */
+    #products-table {
+      flex-grow: 1;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      overflow-x: auto;
+    }
+
+    #products-table h2 {
+      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* keeps columns aligned */
+    }
+
+    table th, table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center; /* center content for better layout */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    table th {
+      background: #f1f4f6;
+      color: #333;
+    }
+
+    table td img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .btn {
+      padding: 6px 10px;
+      margin-right: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .update-btn {
+      background: #ffa500;
+    }
+
+    .update-btn:hover {
+      background: #e59400;
+    }
+
+    .delete-btn {
+      background: #ff2e63;
+    }
+
+    .delete-btn:hover {
+      background: #e6003e;
+    }
+    /* Modal overlay */
+#update-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+}
+
+/* Modal card */
+.update-card {
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+/* Modal heading */
+.update-card h2 {
+  margin: 0 0 15px 0;
+  font-size: 22px;
+  text-align: center;
+  color: #333;
+}
+
+/* Inputs inside modal */
+.update-card input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Update button */
+#save-update-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #4d7cff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#save-update-btn:hover {
+  background: #3b5fd1;
+}
+
+/* Close button */
+#close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+}
+
+#close-modal-btn:hover {
+  background: darkred;
+}
+
+/* Responsive adjustments */
+@media(max-width: 500px) {
+  .update-card {
+    padding: 20px 15px;
+  }
+
+  #close-modal-btn {
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+  }
+}
+
+
+    @media(max-width: 900px) {
+      main {
+        flex-direction: column;
+      }
+
+      #add-product-form, #products-table {
+        width: 100%;
+      }
+    }
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+  <header>Admin Panel</header>
+
+  <main>
+    <!-- Add Product Form -->
+    <div id="add-product-form">
+      <h2>Add New Product</h2>
+      <input type="text" id="add-name" placeholder="Name">
+      <input type="number" id="add-price" placeholder="Price">
+      <input type="text" id="add-category" placeholder="Category">
+      <input type="text" id="add-image" placeholder="Image URL">
+      <input type="text" id="add-description" placeholder="Description">
+      <button id="add-product-btn">Add Product</button>
+    </div>
+
+    <!-- Products Table -->
+    <div id="products-table">
+      <h2>Products List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="admin-products">
+        
+        </tbody>
+      </table>
+    </div>
+    <!-- Update Modal -->
+<div id="update-modal" style="
+    display:none; 
+    position:fixed; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    background: rgba(0,0,0,0.5); 
+    justify-content:center; 
+    align-items:center;
+    padding: 0 20px; /* adds space on left and right */
+">
+  <div style="
+      background:#fff; 
+      padding:20px; 
+      border-radius:10px; 
+      width:100%; 
+      max-width:400px; /* keeps card width limited */
+      position:relative;
+      box-sizing: border-box; /* include padding in width */
+  ">
+    <h2>Update Product</h2>
+    <input type="text" id="update-name" placeholder="Name" style="width:100%; margin:5px 0; padding:8px;">
+    <input type="number" id="update-price" placeholder="Price" style="width:100%; margin:5px 0; padding:8px;">
+    <input type="text" id="update-category" placeholder="Category" style="width:100%; margin:5px 0; padding:8px;">
+    <input type="text" id="update-image" placeholder="Image URL" style="width:100%; margin:5px 0; padding:8px;">
+    <input type="text" id="update-description" placeholder="Description" style="width:100%; margin:5px 0; padding:8px;">
+    <button id="save-update-btn" style="width:100%; padding:10px; margin-top:10px; background:#4d7cff; color:white; border:none; border-radius:5px;">Update</button>
+    <button id="close-modal-btn" style="position:absolute; top:10px; right:10px; background:red; color:white; border:none; border-radius:50%; width:25px; height:25px; font-weight:bold;">×</button>
+  </div>
+</div>
+
+
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>

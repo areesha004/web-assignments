@@ -1,5 +1,6 @@
 let currentPage = 1;
-const limit = 10; 
+const limit = 10;
+let cart = []; // Array to store added product IDs
 
 function fetchProducts(page = 1) {
   const category = $("#category-filter").val();
@@ -10,7 +11,6 @@ function fetchProducts(page = 1) {
     url: `http://localhost:3000/api/products/get?page=${page}&limit=${limit}&category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`,
     method: "GET",
     success: function(res) {
-      // Your backend returns { products, total, page, limit }
       const products = res.products;
       const total = res.total;
 
@@ -31,9 +31,24 @@ function fetchProducts(page = 1) {
             <p>${product.description}</p>
             <div class="price">Rs ${product.price}</div>
             <p><b>Category:</b> ${product.category}</p>
+            <button class="add-to-cart" data-id="${product._id}">Add to Cart</button>
           </div>
         `;
         container.append(card);
+      });
+
+      // Attach click event after cards are rendered
+      $(".add-to-cart").click(function() {
+        const productId = $(this).data("id");
+
+        // Prevent duplicate entries
+        if (!cart.includes(productId)) {
+          cart.push(productId);
+          console.log("Cart:", cart);
+          $(this).text("Added").prop("disabled", true); 
+              localStorage.setItem("cart", JSON.stringify(cart));
+
+        }
       });
 
       renderPagination(total, page);

@@ -36,7 +36,7 @@
                   <input type="email" class="form-control" id="email" />
                   <div class="invalid-feedback">Enter a valid email address.</div>
                 </div>
-                <div class="col-sm-6">
+                <!-- <div class="col-sm-6">
                   <label for="phone" class="form-label">Phone</label>
                   <input type="text" class="form-control" id="phone" />
                   <div class="invalid-feedback">Enter valid phone (10+ digits).</div>
@@ -66,18 +66,13 @@
                     <option>Canada</option>
                   </select>
                   <div class="invalid-feedback">Please select a country.</div>
-                </div>
+                </div> -->
               </div>
-              <div class="form-check mt-3">
-                <input class="form-check-input" type="checkbox" id="sameAddress">
-                <label class="form-check-label" for="sameAddress">
-                  Billing same as shipping
-                </label>
-              </div>
+             
             </div>
           </div>
 
-          <div class="card mb-4">
+          <!-- <div class="card mb-4">
             <div class="card-body">
               <h4 class="mb-3">Payment Method</h4>
               <div class="form-check">
@@ -119,7 +114,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="card">
             <div class="card-body">
@@ -161,65 +156,117 @@
       </div>
     </form>
   </div>
+ <script>
+$(document).ready(function() {
+  // --- Payment Method Toggle ---
+  $("input[name='paymentMethod']").on("change", function() {
+    if ($("#credit").is(":checked")) {
+      $("#cardDetails").removeClass("d-none");
+    } else {
+      $("#cardDetails").addClass("d-none");
+    }
+  });
 
-  <script>
-    $(document).ready(function() {
-      $("input[name='paymentMethod']").on("change", function() {
-        if ($("#credit").is(":checked")) {
-          $("#cardDetails").removeClass("d-none");
-        } else {
-          $("#cardDetails").addClass("d-none");
-        }
-      });
+  $("input, select").on("input change", function() {
+    $(this).removeClass("is-invalid").addClass("is-valid");
+  });
 
-      $("input, select").on("input change", function() {
-        $(this).removeClass("is-invalid").addClass("is-valid");
-      });
+  // --- Load Cart from localStorage & Render Order Summary ---
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const orderSummary = $(".list-group");
+  orderSummary.empty();
 
-      $("#checkoutForm").on("submit", function(e) {
-        e.preventDefault();
-        let valid = true;
+  if (cart.length === 0) {
+    orderSummary.append('<li class="list-group-item">Your cart is empty.</li>');
+  } else {
+    let subtotal = 0;
 
-        const invalidate = (field) => {
-          $(field).removeClass("is-valid").addClass("is-invalid");
-          valid = false;
-        };
+    cart.forEach(item => {
+      const price = item.price || 0;
+      const quantity = item.quantity || 1;
+      const totalPrice = price * quantity;
+      subtotal += totalPrice;
 
-        if ($("#fullname").val().trim().length < 3) invalidate("#fullname");
-        if (!($("#email").val())) invalidate("#email");
-        if (!($("#phone").val())) invalidate("#phone");
-        if (!$("#address").val().trim()) invalidate("#address");
-        if (!$("#city").val().trim()) invalidate("#city");
-        if (!($("#postal").val())) invalidate("#postal");
-        if (!$("#country").val()) invalidate("#country");
-
-        if (!$("input[name='paymentMethod']:checked").length) {
-          $(".payment-error").show();
-          valid = false;
-        } else {
-          $(".payment-error").hide();
-        }
-
-        if ($("#credit").is(":checked")) {
-          if (!$("#cardName").val().trim()) invalidate("#cardName");
-          if (!$("#cardNumber").val().trim()) invalidate("#cardNumber");
-          if (!$("#expiry").val().trim()) invalidate("#expiry");
-          if (!$("#cvv").val().trim()) invalidate("#cvv");
-        }
-
-        if (!$("#termsCheck").is(":checked")) invalidate("#termsCheck");
-
-        if (!valid) {
-          $('html, body').animate({
-            scrollTop: $(".is-invalid:first").offset().top - 100
-          }, 600);
-          return false;
-        }
-
-        alert(" Order placed successfully!");
-       
-      });
+      const listItem = `
+        <li class="list-group-item d-flex justify-content-between lh-sm">
+          <div>
+            <h6 class="my-0">${item.name}</h6>
+            <small>Qty: ${quantity}</small>
+          </div>
+          <span>Rs ${totalPrice}</span>
+        </li>
+      `;
+      orderSummary.append(listItem);
     });
-  </script>
+
+    // Shipping & tax example
+    const shipping = 50;
+    const tax = subtotal * 0.05;
+    const grandTotal = subtotal + shipping + tax;
+
+    orderSummary.append(`<li class="list-group-item d-flex justify-content-between"><span>Subtotal</span><strong>Rs ${subtotal}</strong></li>`);
+    orderSummary.append(`<li class="list-group-item d-flex justify-content-between"><span>Shipping</span><strong>Rs ${shipping}</strong></li>`);
+    orderSummary.append(`<li class="list-group-item d-flex justify-content-between"><span>Tax</span><strong>Rs ${tax.toFixed(2)}</strong></li>`);
+    orderSummary.append(`<li class="list-group-item d-flex justify-content-between"><span>Grand Total</span><strong>Rs ${grandTotal.toFixed(2)}</strong></li>`);
+  }
+
+  // --- Form Submission & AJAX ---
+  $("#checkoutForm").on("submit", function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    const invalidate = (field) => {
+      $(field).removeClass("is-valid").addClass("is-invalid");
+      valid = false;
+    };
+
+    if ($("#fullname").val().trim().length < 3) invalidate("#fullname");
+    if (!$("#email").val()) invalidate("#email");
+    if (!$("#termsCheck").is(":checked")) invalidate("#termsCheck");
+
+    if (!valid) {
+      $('html, body').animate({
+        scrollTop: $(".is-invalid:first").offset().top - 100
+      }, 600);
+      return false;
+    }
+
+    if (cart.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    const cartItems = cart.map(item => ({
+      product: item,
+      quantity: 1
+    }));
+
+    const orderData = {
+      customerName: $("#fullname").val(),
+      email: $("#email").val(),
+      cartItems: cartItems
+    };
+
+    $.ajax({
+      url: "http://localhost:3000/api/orders/create",
+      method: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(orderData),
+      success: function(response) {
+        alert("Order placed successfully!");
+        localStorage.removeItem("cart"); 
+          window.location.href = `order.html?id=${response._id}`;
+
+      },
+      error: function(err) {
+        console.error("Order failed:", err);
+        alert("Failed to place order. Try again.");
+      }
+    });
+  });
+
+});
+</script>
+
 </body>
 </html>

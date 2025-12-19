@@ -44,7 +44,6 @@ function fetchProducts() {
 
 
 
-// Add Product
 $("#add-product-btn").click(function() {
   const product = {
     name: $("#add-name").val(),
@@ -62,7 +61,7 @@ $("#add-product-btn").click(function() {
     success: function() {
       alert("Product added!");
       fetchProducts();
-      $("#add-product-form input").val(""); // clear inputs
+      $("#add-product-form input").val(""); 
     },
     error: function(err) {
       console.error("Failed to add product:", err);
@@ -70,7 +69,6 @@ $("#add-product-btn").click(function() {
   });
 });
 
-// Delete or Update button click (delegation)
 $("#admin-products").on("click", ".delete-btn", function() {
   const id = $(this).closest(".product-card").data("id");
   if(confirm("Are you sure to delete this product?")) {
@@ -89,7 +87,6 @@ $("#admin-products").on("click", ".delete-btn", function() {
 });
 let currentUpdateId = null;
 
-// Open modal with pre-filled data
 $("#admin-products").on("click", ".update-btn", function() {
   const row = $(this).closest("tr");
   currentUpdateId = row.data("id");
@@ -103,12 +100,12 @@ $("#admin-products").on("click", ".update-btn", function() {
   $("#update-modal").css("display", "flex");
 });
 
-// Close modal
+
 $("#close-modal-btn").click(function() {
   $("#update-modal").hide();
 });
 
-// Save update
+
 $("#save-update-btn").click(function() {
   const updatedProduct = {
     name: $("#update-name").val(),
@@ -133,9 +130,6 @@ $("#save-update-btn").click(function() {
     }
   });
 });
-
-
-// Initial fetch
 $(document).ready(function() {
   fetchProducts();
 });

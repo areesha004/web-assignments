@@ -1,5 +1,5 @@
 let currentPage = 1;
-const limit = 4; // Number of products per page
+const limit = 10; 
 
 function fetchProducts(page = 1) {
   const category = $("#category-filter").val();
